@@ -1,0 +1,36 @@
+<!doctype html>
+<html ng-app="cancerLookup">
+  <head>
+
+    <link rel="stylesheet" href="index.css"></link>
+
+    <!-- debug -->
+    <script src="getDyn.js"></script>
+    <script src="jquery-1.11.3.min.js"></script>
+    <!-- end debug -->
+
+    <script src="lodash.min.js"></script>
+    <script src="Snoocore-browser.min.js"></script>
+    <script src="angular.min.js"></script>
+    <script src="dynTags.js"></script>
+    <script src="tags.js"></script>
+    <script src="index.js"></script>
+  </head>
+  <body>
+    <div ng-controller="LookupCtrl">
+      <label>Subreddit:</label>
+      r/<input type="text" ng-model="sub" ng-change="subType()" placeholder="punchablefaces">
+      <hr>
+      <div ng-show="sub">results for r/{{sub}}:</div>
+      <div ng-hide="sub">type in a subreddit to continue</div>
+      <div>
+        <span ng-show="stage !== 'IDLE'">[spinny thing]</span>
+      </div>
+      <div ng-show="stage === 'IDLE'">
+        <div ng-repeat="mod in data">
+          {{mod.name}}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
