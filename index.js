@@ -21,6 +21,8 @@ function mods(sub) {
       v.rank = i/(childs.length-1);
     });
     return childs;
+  }, function(err) {
+    return null;
   });
 }
 
@@ -28,11 +30,17 @@ function mods(sub) {
 var types = {
   srs: {
     name: 'the ShitRedditSays network',
+    color: 'red',
     hub: 'ShitRedditSays'
   },
   cb: {
     name: 'r/circlebroke',
+    color: 'red',
     hub: 'circlebroke'
+  },
+  imm: {
+    name: 'immune (bots)',
+    color: 'gray'
   }
 };
 
@@ -41,7 +49,7 @@ angular.module('cancerLookup', [])
 
   //don't spam reddit with requests
   var tryLookup = _.debounce(function() {
-    lookup($scope.sub);
+    $scope.sub && lookup($scope.sub);
   }, 400);
 
   //get the list of mods and write to data
@@ -52,17 +60,24 @@ angular.module('cancerLookup', [])
       //do nothing if they started typing again
       if($scope.sub !== sub) return;
       $scope.data = data;
-      $scope.stage = 'IDLE';
+      $scope.stage = data ? 'IDLE' : 'ERROR';
       $scope.$digest();
     });
   }
 
   $scope.data = null;
+  $scope.tags = tags;
+  $scope.types = types;
 
   $scope.stage = 'IDLE';
 
   //type event
   $scope.subType = function() {
+    if(!$scope.sub) {
+      $scope.stage = 'IDLE';
+      $scope.data = null;
+      return;
+    }
     $scope.stage = 'TYPING';
     tryLookup();
   };

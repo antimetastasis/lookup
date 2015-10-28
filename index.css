@@ -1,3 +1,18 @@
+
 body {
   font-family: sans-serif;
+}
+.mod-row {
+  width: 100%;
+  display: flex;
+}
+.mod-row > div {
+  flex: 1 0;
+}
+.mod-name {
+  text-align: right;
+  padding-right: 1em;
+}
+.mod-tags {
+  padding-left: 1em;
 }

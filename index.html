@@ -24,11 +24,17 @@
       <div ng-show="sub">results for r/{{sub}}:</div>
       <div ng-hide="sub">type in a subreddit to continue</div>
       <div>
-        <span ng-show="stage !== 'IDLE'">[spinny thing]</span>
+        <span ng-show="['IDLE', 'ERROR'].indexOf(stage) === -1">loading...</span>
       </div>
-      <div ng-show="stage === 'IDLE'">
-        <div ng-repeat="mod in data">
-          {{mod.name}}
+      <div ng-show="stage === 'ERROR'">API error - does the sub exist?  Are you online?</div>
+      <div ng-show="data && stage === 'IDLE'">
+        <div class="mod-row" ng-repeat="mod in data">
+          <div class="mod-name">
+            {{mod.name}}
+          </div>
+          <div class="mod-tags">
+            <span ng-repeat="tag in tags[mod.name].tags" ng-style="{color: types[tag].color}">{{tag}} </span>
+          </div>
         </div>
       </div>
     </div>
